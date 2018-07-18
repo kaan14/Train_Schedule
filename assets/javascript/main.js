@@ -1,10 +1,8 @@
 // Steps to complete:
 // 1. Initialize Firebase
-// 2. Create button for adding new employees - then update the html + update the database
-// 3. Create a way to retrieve employees from the employee database.
-// 4. Create a way to calculate the months worked. Using difference between start and current time.
-//    Then use moment.js formatting to set difference in months.
-// 5. Calculate Total billed
+// 2. Create button for adding new schedule - then update the html + update the database
+// 3. Create a way to retrieve current scheduled trips from the database.
+
 
 // 1. Initialize Firebase
 var config = {
@@ -20,7 +18,7 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-// 2. Button for adding Employees
+// 2. Button for adding New Schedule
 $("#btnAddTrain").on("click", function(event) {
   event.preventDefault();
   console.log("button clicked"); 
@@ -41,7 +39,7 @@ $("#btnAddTrain").on("click", function(event) {
     seatNumber: seatAva,
   };
 
-  // Uploads employee data to the database
+  // Uploads schedule data to the database
   database.ref().push(newTrain);
 
   // Logs everything to console
@@ -59,7 +57,7 @@ $("#btnAddTrain").on("click", function(event) {
   console.log(newTrain.seatNumber);
 
 
-  alert("Employee successfully added");
+  alert("New trip successfully added");
 
   // Clears all of the text-boxes
   $("#txtbxTrainName").val("");
@@ -68,10 +66,10 @@ $("#btnAddTrain").on("click", function(event) {
   $("#txtbxNumberSeats").val("");
 });
 
-// 3. Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
-database.ref().on("child_added", function(childSnapshot) {
+// 3. Create Firebase event for adding train schedule to the database and a row in the html when a user adds an entry
+database.ref().on("child_added",function(childSnapshot) {
   console.log(childSnapshot.val());
-}); 
+ 
    // Store everything into a variable.
   var dbTrainName = childSnapshot.val().name;
   var dbDestination = childSnapshot.val().des;
@@ -79,7 +77,7 @@ database.ref().on("child_added", function(childSnapshot) {
   var dbAMPM = childSnapshot.val().timeSc;
   var dbSeatAva = childSnapshot.val().seatNumber;
 
-  
+
 
   
  
@@ -95,12 +93,5 @@ database.ref().on("child_added", function(childSnapshot) {
 
   // Append the new row to the table
   $("#trainSchedule-table > tbody").append(newRow);
- //});
+});
 
-// Example Time Math
-// -----------------------------------------------------------------------------
-// Assume Employee start date of January 1, 2015
-// Assume current date is March 1, 2016
-
-// We know that this is 15 months.
-// Now we will create code in moment.js to confirm that any attempt we use meets this test case
