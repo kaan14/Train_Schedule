@@ -26,27 +26,30 @@ $("#add-employee-btn").on("click", function(event) {
   event.preventDefault();
 
   // Grabs user input
-  var empName = $("#employee-name-input").val().trim();
-  var empRole = $("#role-input").val().trim();
-  var empStart = moment($("#start-input").val().trim(), "MM/DD/YYYY").format("X");
-  var empRate = $("#rate-input").val().trim();
+  var trainName = $("#txtbxTrainName").val().trim();
+  var destination = $("#txtbxDestination").val().trim();
+  var departureTime = $("#txtbxDepartureTime").val().trim();
+  var departureTime = $("#txtbxDepartureTime").val().trim();
+  var AMPM = $("select").val().trim();
+  var seatAva = $("#txtbxNumberSeats").val().trim(); 
 
   // Creates local "temporary" object for holding employee data
-  var newEmp = {
-    name: empName,
-    role: empRole,
-    start: empStart,
-    rate: empRate
+  var newTrain = {
+    name: trainName,
+    des: destination,
+    depart: departureTime,
+    timeSc: AMPM,
+    seatNumber: seatAva,
   };
 
   // Uploads employee data to the database
-  database.ref().push(newEmp);
+  database.ref().push(newTrain);
 
   // Logs everything to console
-  console.log(newEmp.name);
-  console.log(newEmp.role);
-  console.log(newEmp.start);
-  console.log(newEmp.rate);
+  console.log(newTrain.name);
+  console.log(newTrain.role);
+  console.log(newTrain.start);
+  console.log(newTrain.rate);
 
   alert("Employee successfully added");
 
@@ -73,18 +76,8 @@ database.ref().on("child_added", function(childSnapshot) {
   console.log(empStart);
   console.log(empRate);
 
-  // Prettify the employee start
-  var empStartPretty = moment.unix(empStart).format("MM/DD/YYYY");
-
-  // Calculate the months worked using hardcore math
-  // To calculate the months worked
-  var empMonths = moment().diff(moment(empStart, "X"), "months");
-  console.log(empMonths);
-
-  // Calculate the total billed rate
-  var empBilled = empMonths * empRate;
-  console.log(empBilled);
-
+  
+ 
   // Create the new row
   var newRow = $("<tr>").append(
     $("<td>").text(empName),
