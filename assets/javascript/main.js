@@ -1,5 +1,4 @@
 // Steps to complete:
-
 // 1. Initialize Firebase
 // 2. Create button for adding new employees - then update the html + update the database
 // 3. Create a way to retrieve employees from the employee database.
@@ -22,13 +21,13 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // 2. Button for adding Employees
-$("#add-employee-btn").on("click", function(event) {
+$("#btnAddTrain").on("click", function(event) {
   event.preventDefault();
+  console.log("button clicked"); 
 
   // Grabs user input
   var trainName = $("#txtbxTrainName").val().trim();
   var destination = $("#txtbxDestination").val().trim();
-  var departureTime = $("#txtbxDepartureTime").val().trim();
   var departureTime = $("#txtbxDepartureTime").val().trim();
   var AMPM = $("select").val().trim();
   var seatAva = $("#txtbxNumberSeats").val().trim(); 
@@ -46,51 +45,57 @@ $("#add-employee-btn").on("click", function(event) {
   database.ref().push(newTrain);
 
   // Logs everything to console
+  console.log(trainName);
+  console.log(destination);
+  console.log(departureTime);
+  console.log(AMPM);
+  console.log(seatAva);
+
+
   console.log(newTrain.name);
-  console.log(newTrain.role);
-  console.log(newTrain.start);
-  console.log(newTrain.rate);
+  console.log(newTrain.des);
+  console.log(newTrain.depart);
+  console.log(newTrain.timeSc);
+  console.log(newTrain.seatNumber);
+
 
   alert("Employee successfully added");
 
   // Clears all of the text-boxes
-  $("#employee-name-input").val("");
-  $("#role-input").val("");
-  $("#start-input").val("");
-  $("#rate-input").val("");
+  $("#txtbxTrainName").val("");
+  $("#txtbxDestination").val("");
+  $("#txtbxDepartureTime").val("");
+  $("#txtbxNumberSeats").val("");
 });
 
 // 3. Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
 database.ref().on("child_added", function(childSnapshot) {
   console.log(childSnapshot.val());
+}); 
+   // Store everything into a variable.
+  var dbTrainName = childSnapshot.val().name;
+  var dbDestination = childSnapshot.val().des;
+  var dbDepartureTime = childSnapshot.val().depart;
+  var dbAMPM = childSnapshot.val().timeSc;
+  var dbSeatAva = childSnapshot.val().seatNumber;
 
-  // Store everything into a variable.
-  var empName = childSnapshot.val().name;
-  var empRole = childSnapshot.val().role;
-  var empStart = childSnapshot.val().start;
-  var empRate = childSnapshot.val().rate;
-
-  // Employee Info
-  console.log(empName);
-  console.log(empRole);
-  console.log(empStart);
-  console.log(empRate);
+  
 
   
  
-  // Create the new row
+  // // Create the new row
   var newRow = $("<tr>").append(
-    $("<td>").text(empName),
-    $("<td>").text(empRole),
-    $("<td>").text(empStartPretty),
-    $("<td>").text(empMonths),
-    $("<td>").text(empRate),
-    $("<td>").text(empBilled)
+    $("<td>").text(dbTrainName),
+    $("<td>").text(dbDestination),
+    $("<td>").text(dbDepartureTime),
+    $("<td>").text(dbAMPM),
+    $("<td>").text(dbSeatAva),
+    //$("<td>").text(empBilled)
   );
 
   // Append the new row to the table
-  $("#employee-table > tbody").append(newRow);
-});
+  $("#trainSchedule-table > tbody").append(newRow);
+ //});
 
 // Example Time Math
 // -----------------------------------------------------------------------------
