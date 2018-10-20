@@ -6,12 +6,12 @@
 
 // 1. Initialize Firebase
 var config = {
-    apiKey: "AIzaSyAIqSEpYV6AViIuQE8TnIjcksuV23QU9WU",
-    authDomain: "myfirstdatabaseproject-fded7.firebaseapp.com",
-    databaseURL: "https://myfirstdatabaseproject-fded7.firebaseio.com",
-    projectId: "myfirstdatabaseproject-fded7",
-    storageBucket: "",
-    messagingSenderId: "177944424989"
+  apiKey: "AIzaSyAIqSEpYV6AViIuQE8TnIjcksuV23QU9WU",
+  authDomain: "myfirstdatabaseproject-fded7.firebaseapp.com",
+  databaseURL: "https://myfirstdatabaseproject-fded7.firebaseio.com",
+  projectId: "myfirstdatabaseproject-fded7",
+  storageBucket: "",
+  messagingSenderId: "177944424989"
 };
 firebase.initializeApp(config);
 
@@ -19,16 +19,16 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // 2. Button for adding New Schedule
-$("#btnAddTrain").on("click", function(event) {
+$("#btnAddTrain").on("click", function (event) {
   event.preventDefault();
-  console.log("button clicked"); 
+  console.log("button clicked");
 
   // Grabs user input
   var trainName = $("#txtbxTrainName").val().trim();
   var destination = $("#txtbxDestination").val().trim();
   var departureTime = $("#txtbxDepartureTime").val().trim();
   var AMPM = $("select").val().trim();
-  var seatAva = $("#txtbxNumberSeats").val().trim(); 
+  var seatAva = $("#txtbxNumberSeats").val().trim();
 
   // Creates local "temporary" object for holding employee data
   var newTrain = {
@@ -67,10 +67,10 @@ $("#btnAddTrain").on("click", function(event) {
 });
 
 // 3. Create Firebase event for adding train schedule to the database and a row in the html when a user adds an entry
-database.ref().on("child_added",function(childSnapshot) {
+database.ref().on("child_added", function (childSnapshot) {
   console.log(childSnapshot.val());
- 
-   // Store everything into a variable.
+
+  // Store everything into a variable.
   var dbTrainName = childSnapshot.val().name;
   var dbDestination = childSnapshot.val().des;
   var dbDepartureTime = childSnapshot.val().depart;
@@ -79,19 +79,18 @@ database.ref().on("child_added",function(childSnapshot) {
 
 
 
-  
- 
+
+
   // // Create the new row
   var newRow = $("<tr>").append(
-    $("<td>").text(dbTrainName),
-    $("<td>").text(dbDestination),
-    $("<td>").text(dbDepartureTime),
-    $("<td>").text(dbAMPM),
-    $("<td>").text(dbSeatAva),
-    //$("<td>").text(empBilled)
+    $("<th scope='row'>").text(dbTrainName),
+    $("<th>").text(dbDestination),
+    $("<th>").text(dbDepartureTime),
+    $("<th>").text(dbAMPM),
+    $("<th>").text(dbSeatAva),
   );
 
   // Append the new row to the table
-  $("#trainSchedule-table > tbody").append(newRow);
+  $("#trainSchedule-table tbody").append(newRow);
 });
 
